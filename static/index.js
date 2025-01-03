@@ -9,6 +9,24 @@ const redLight = document.getElementById("red-light");
 const yellowLight = document.getElementById("yellow-light");
 const greenLight = document.getElementById("green-light");
 
+
+function updateTrafficLights() {
+  if (document.activeElement === commandInput) {
+    redLight.style.backgroundColor = "#ff5f56";
+    yellowLight.style.backgroundColor = "#ffbd2e";
+    greenLight.style.backgroundColor = "#27c93f";
+  } else {
+    redLight.style.backgroundColor = "#4C4C4C";
+    yellowLight.style.backgroundColor = "#4C4C4C";
+    greenLight.style.backgroundColor = "#4C4C4C";
+  }
+}
+
+commandInput.addEventListener("focus", updateTrafficLights);
+commandInput.addEventListener("blur", updateTrafficLights);
+
+updateTrafficLights();
+
 async function fetchNpmDownloads(packageName) {
   const currentDate = new Date().toISOString().split('T')[0];
   const response = await fetch(`https://api.npmjs.org/downloads/point/2020-01-01:${currentDate}/${packageName}`);
