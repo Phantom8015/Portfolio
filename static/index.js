@@ -136,9 +136,10 @@ function reopenWindow() {
   if (isMinimized) {
     windowElement.style.display = "block";
     footer.style.display = "none";
+    windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    windowElement.style.transform = "none";
     setTimeout(() => {
-      windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
-      windowElement.style.transform = "none";
+      windowElement.style.transition = "none";
       windowElement.style.opacity = "1";
     }, 10);
     isClosed = false;
@@ -146,8 +147,9 @@ function reopenWindow() {
     updateTerminalTitle();
   } else if (isClosed) {
     windowElement.style.display = "block";
-    setTimeout(() => {
-      windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    setTimeout(() => { 
+      windowElement.style.transition = "none";
       windowElement.style.left = `${initialLeft}px`;
       windowElement.style.top = `${initialTop}px`;
       windowElement.style.width = `${initialWidth}px`;
@@ -352,6 +354,9 @@ titleBar.addEventListener("dblclick", () => {
   windowElement.style.left = `${centerX}px`;
   windowElement.style.top = `${centerY}px`;
   windowElement.style.transform = "none";
+  setTimeout(() => {
+    windowElement.style.transition = "none";
+  } , 300);
 });
 
 titleBar.addEventListener("mousedown", (e) => {
@@ -409,6 +414,8 @@ windowElement.addEventListener("mousedown", (e) => {
 
 document.addEventListener("mousemove", (e) => {
   if (isResizing) {
+    windowElement.style.transition = "none";
+    windowElement.style.transform = "none";
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
 
