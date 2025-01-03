@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>Phantom8015</title>
+    <link rel="icon" href="static/pfp.png" />
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+    <link rel="stylesheet" href="static/style.css" />
+    <style>
+      body {
+        background-image: url("static/bg.png");
+        color: #b8b8b8;
+        font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-size: cover;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="window" id="windowElement">
+      <div class="title-bar" id="title-bar">
+        <div class="traffic-lights">
+          <div class="traffic-light red" id="red-light"></div>
+          <div class="traffic-light yellow" id="yellow-light"></div>
+          <div class="traffic-light green" id="green-light"></div>
+        </div>
+        <div class="title">
+          <img src="static/folder.png" alt="Icon" class="title-icon" />
+          <span id="title">Phantom8015 -- -zsh -- </span>
+        </div>
+      </div>
+
+      <div class="container" id="container">
+        <div class="output" id="output-container">
+          <div id="last-login">Last Login:</div>
+          <div class="command-output">Type 'help' to get started.</div>
+          <div class="command-line"></div>
+        </div>
+        <div class="command-line">
+          <span class="prompt">(base) Phantom8015@MacBook-Air ~ %&nbsp;</span>
+          <input type="text" id="command-input" autocomplete="off" />
+        </div>
+      </div>
+    </div>
+    <footer id="footer" style="display: none">
+      <span id="footer-text"></span>
+    </footer>
+    <script src="static/index.js"></script>
+  </body>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</html>
