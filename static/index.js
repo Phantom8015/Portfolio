@@ -136,10 +136,9 @@ function reopenWindow() {
   if (isMinimized) {
     windowElement.style.display = "block";
     footer.style.display = "none";
-    windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
-    windowElement.style.transform = "none";
     setTimeout(() => {
-      windowElement.style.transition = "none";
+      windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+      windowElement.style.transform = "none";
       windowElement.style.opacity = "1";
     }, 10);
     isClosed = false;
@@ -147,9 +146,8 @@ function reopenWindow() {
     updateTerminalTitle();
   } else if (isClosed) {
     windowElement.style.display = "block";
-    windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
-    setTimeout(() => { 
-      windowElement.style.transition = "none";
+    setTimeout(() => {
+      windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
       windowElement.style.left = `${initialLeft}px`;
       windowElement.style.top = `${initialTop}px`;
       windowElement.style.width = `${initialWidth}px`;
@@ -168,7 +166,6 @@ function reopenWindow() {
     isClosed = false;
   }
 }
-
 
 function minimizeWindow() {
   if (!isMinimized) {
