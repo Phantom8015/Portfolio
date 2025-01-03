@@ -48,7 +48,7 @@
 }
 
 .title-bar {
-  background-color: #383842;
+  background: inherit;
   height: 28px;
   max-height: 28px;
   min-height: 28px;

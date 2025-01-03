@@ -235,7 +235,7 @@ window.addEventListener("load", () => {
 function updateTerminalTitle() {
   const rect = windowElement.getBoundingClientRect();
   const titleElement = document.getElementById("title");
-  titleElement.textContent = `Phantom8015 -- -zsh -- ${Math.round(rect.width)}x${Math.round(rect.height)}`;
+  titleElement.textContent = `Phantom8015 — -zsh — ${Math.round(rect.width)}x${Math.round(rect.height)}`;
 }
 
 const birthday = new Date(2011, 5, 12);
@@ -248,13 +248,19 @@ const commands = {
   learning: "I am currently learning C# in Unity.",
   skills:
     "I code in Python, Lua, Godot, Java/TypeScript, HTML, CSS, Java, Batch & SH, and Swift. \n\nSome of my projects are available on my GitHub, this website in of itself is a project.",
-  github: "Visit my GitHub at https://github.com/Phantom8015 You can also check out my NPM Profile at: https://www.npmjs.com/~phantom8015",
+  github: "Visit my GitHub at https://github.com/Phantom8015",
   whoami: `Hi there! My name is Evaan Chowdhry. I'm a ${age}-year-old developer from India. I'm a passionate programmer who's been coding since I was nine years old. Feel free to reach out to me at evaanchowdhry@gmail.com!`,
   discord: "Add me on discord: phantom8015. (Don't forget the .)",
   achievements: async function () {
     totalDownloads = await getTotalDownloads(username);
-    showOutput(`I have got 2nd place in the STRIPE Senior Python Competition and 2nd place in the Stack Hacks hackathon. I also have ${totalDownloads}+ npm downloads across all of my packages.`, "success");
+    showOutput(`I have got 2nd place in the STRIPE Senior Python Competition and 2nd place in the Stack Hacks hackathon. I also have ${totalDownloads}+ npm downloads across all of my packages. You can check out my NPM Profile at: https://www.npmjs.com/~phantom8015`, "success");
   },
+  ls: function () {
+    fetchUserPackages(username).then((packages) => {
+      showOutput(packages.join("\n"), "success")
+    });
+  },
+    
 
   clear: function () {
     outputContainer.innerHTML = "";
@@ -288,7 +294,7 @@ commandInput.addEventListener("keydown", function (event) {
   }
 });
 
-function showCommandOutput(command) {
+async function showCommandOutput(command) {
   if (iframemode) {
     iframemode = false;
     outputContainer.innerHTML = "";
@@ -303,11 +309,13 @@ function showCommandOutput(command) {
   if (commands[command]) {
     response = commands[command];
     if (typeof response === "function") {
-      response();
-      outputContainer.scrollTop = outputContainer.scrollHeight;
+      const commandOutput = document.createElement("div");
+      commandOutput.classList.add("command-output", responseClass);
+      commandOutput.textContent = `(base) Phantom8015@MacBook-Air ~ % ${command}\n`;
+      outputContainer.appendChild(commandOutput);
+      await response()
       return;
     }
-    responseClass = "success";
   }
 
   const commandOutput = document.createElement("div");
@@ -321,14 +329,6 @@ function showCommandOutput(command) {
 function showOutput(text, type = "info") {
   const commandOutput = document.createElement("div");
   commandOutput.classList.add("command-output", type);
-  commandOutput.textContent = text;
-  outputContainer.appendChild(commandOutput);
-  outputContainer.scrollTop = outputContainer.scrollHeight;
-}
-
-function showOutput(text) {
-  const commandOutput = document.createElement("div");
-  commandOutput.classList.add("command-output");
   commandOutput.textContent = text;
   outputContainer.appendChild(commandOutput);
   outputContainer.scrollTop = outputContainer.scrollHeight;
