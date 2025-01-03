@@ -74,6 +74,8 @@ function maximizeWindow() {
   if (isMinimized || isClosed) {
     return;
   }
+  windowElement.style.transition = "left 0.3s ease, top 0.3s ease, width 0.3s ease, height 0.3s ease";
+
   if (isMaximized) {
     windowElement.style.left = `${initialLeft}px`;
     windowElement.style.top = `${initialTop}px`;
@@ -99,7 +101,7 @@ function closeWindow() {
             <div id="last-login">Last Login:</div>
             <div class="command-output">Window is closed. Click to reopen.</div>
         `;
-
+    windowElement.style.transition = "left 0.3s ease, top 0.3s ease, width 0.3s ease, height 0.3s ease";
     outputContainer.style.display = "block";
     outputContainer.style.flexDirection = "column";
     outputContainer.style.gap = "20px";
@@ -116,7 +118,13 @@ function closeWindow() {
     windowElement.style.left = `${centerX}px`;
     windowElement.style.top = `${centerY}px`;
 
-    windowElement.style.display = "none";
+    windowElement.style.transform = "scale(0.1, 0.1) translate(5px, calc(100% - 10px))";
+    windowElement.style.transition = "transform 0.3s ease";
+
+    setTimeout(() => {
+      windowElement.style.display = "none";
+    }, 300);
+
     footer.style.display = "block";
     footerText.textContent =
       "Window is closed. Click or tap anywhere to reopen.";
@@ -128,11 +136,26 @@ function reopenWindow() {
   if (isMinimized) {
     windowElement.style.display = "block";
     footer.style.display = "none";
+    setTimeout(() => {
+      windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+      windowElement.style.transform = "none";
+      windowElement.style.opacity = "1";
+    }, 10);
     isClosed = false;
     isMinimized = false;
     updateTerminalTitle();
   } else if (isClosed) {
     windowElement.style.display = "block";
+    setTimeout(() => {
+      windowElement.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+      windowElement.style.left = `${initialLeft}px`;
+      windowElement.style.top = `${initialTop}px`;
+      windowElement.style.width = `${initialWidth}px`;
+      windowElement.style.height = `${initialHeight}px`;
+      windowElement.style.transform = "none";
+      windowElement.style.opacity = "1";
+    }, 10);
+
     const lastLoginText = `Last Login: ${new Date().toString().split(" ").slice(0, 5).join(" ")}`;
     outputContainer.innerHTML = `
             <div id="last-login">${lastLoginText}</div>
@@ -144,13 +167,19 @@ function reopenWindow() {
   }
 }
 
+
 function minimizeWindow() {
   if (!isMinimized) {
-    windowElement.style.display = "none";
+    windowElement.style.transform = "scale(0.1, 0.1) translate(5px, calc(100% - 10px))";
+    windowElement.style.transition = "transform 0.5s ease";
     footer.style.display = "block";
     footerText.textContent =
       "Window is minimized. Click or tap anywhere to reopen.";
     isMinimized = true;
+
+    setTimeout(() => {
+      windowElement.style.display = "none";
+    }, 500); 
   }
 }
 
@@ -192,14 +221,19 @@ function updateTerminalTitle() {
   titleElement.textContent = `Phantom8015 -- -zsh -- ${Math.round(rect.width)}x${Math.round(rect.height)}`;
 }
 
+const birthday = new Date(2011, 5, 12);
+const ageDifMs = Date.now() - birthday.getTime();
+const ageDate = new Date(ageDifMs);
+const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
 const commands = {
-  help: "Available commands:\n\n- help: Show this message\n\n- Learning: What I'm learning\n\n- Skills: My skills\n\n- GitHub: Visit my GitHub\n\n- Discord: Add me on Discord\n\n- Minecraft: Join me on Minecraft\n\n- Achievements: What are my achievments?\n\n- Clear: Clear the terminal",
+  help: "Available commands:\n\n- help: Show this message\n\n- whoami: About me\n\n- learning: What I'm learning\n\n- skills: My skills\n\n- gitHub: Visit my GitHub\n\n- discord: Add me on Discord\n\n- achievements: What are my achievments?\n\n- clear: Clear the terminal",
   learning: "I am currently learning C# in Unity.",
   skills:
     "I code in Python, Lua, Godot, Java/TypeScript, HTML, CSS, Java, Batch & SH, and Swift. \n\nSome of my projects are available on my GitHub, this website in of itself is a project.",
   github: "Visit my GitHub at https://github.com/Phantom8015 You can also check out my NPM Profile at: https://www.npmjs.com/~phantom8015",
+  whoami: `Hi there! My name is Evaan Chowdhry. I'm a ${age}-year-old developer from India. I'm a passionate programmer who's been coding since I was nine years old. Feel free to reach out to me at evaanchowdhry@gmail.com!`,
   discord: "Add me on discord: phantom8015. (Don't forget the .)",
-  minecraft: "Join me on Minecraft: 8015_",
   achievements: async function () {
     totalDownloads = await getTotalDownloads(username);
     showOutput(`I have got 2nd place in the STRIPE Senior Python Competition and 2nd place in the Stack Hacks hackathon. I also have ${totalDownloads}+ npm downloads across all of my packages.`, "success");
@@ -310,10 +344,11 @@ titleBar.addEventListener("dblclick", () => {
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   const rect = windowElement.getBoundingClientRect();
-
+  
   const centerX = (windowWidth - rect.width) / 2;
   const centerY = (windowHeight - rect.height) / 2;
-
+  windowElement.style.transition = "left 0.3s ease, top 0.3s ease, width 0.3s ease, height 0.3s ease";
+  
   windowElement.style.left = `${centerX}px`;
   windowElement.style.top = `${centerY}px`;
   windowElement.style.transform = "none";
@@ -330,6 +365,8 @@ titleBar.addEventListener("mousedown", (e) => {
 
 document.addEventListener("mousemove", (e) => {
   if (isDragging) {
+    windowElement.style.transition = "none";
+
     const rect = windowElement.getBoundingClientRect();
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
@@ -355,6 +392,8 @@ document.addEventListener("mousemove", (e) => {
 
 windowElement.addEventListener("mousedown", (e) => {
   if (e.target.classList.contains("resize-handle")) {
+    windowElement.style.transition = "none";
+
     isResizing = true;
     const rect = windowElement.getBoundingClientRect();
     startX = e.clientX;
