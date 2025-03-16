@@ -244,7 +244,7 @@ const ageDate = new Date(ageDifMs);
 const age = Math.abs(ageDate.getUTCFullYear() - 1970);
 
 const commands = {
-  help: "Available commands:\n\n- help: Show this message\n\n- whoami: About me\n\n- learning: What I'm learning\n\n- skills: My skills\n\n- gitHub: Visit my GitHub\n\n- discord: Add me on Discord\n\n- achievements: What are my achievments?\n\n- clear: Clear the terminal",
+  help: "Available commands:\n\n- help: Show this message\n\n- whoami: About me\n\n- learning: What I'm learning\n\n- skills: My skills\n\n- github: Visit my GitHub\n\n- discord: Add me on Discord\n\n- achievements: What are my achievments?\n\n- clear: Clear the terminal",
   learning: "I am currently learning C# in Unity.",
   skills:
     "I code in Python, Lua, Godot, Java/TypeScript, HTML, CSS, Java, Batch & SH, and Swift. \n\nSome of my projects are available on my GitHub, this website in of itself is a project.",
