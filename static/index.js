@@ -238,10 +238,6 @@ function updateTerminalTitle() {
   titleElement.textContent = `Phantom8015 — -zsh — ${Math.round(rect.width)}x${Math.round(rect.height)}`;
 }
 
-const birthday = new Date(2011, 5, 12);
-const ageDifMs = Date.now() - birthday.getTime();
-const ageDate = new Date(ageDifMs);
-const age = Math.abs(ageDate.getUTCFullYear() - 1970);
 
 const commands = {
   help: "Available commands:\n\n- help: Show this message\n\n- whoami: About me\n\n- learning: What I'm learning\n\n- skills: My skills\n\n- github: Visit my GitHub\n\n- discord: Add me on Discord\n\n- achievements: What are my achievments?\n\n- clear: Clear the terminal",
@@ -249,7 +245,7 @@ const commands = {
   skills:
     "I code in Python, Lua, Godot, Java/TypeScript, HTML, CSS, Java, Batch & SH, and Swift. \n\nSome of my projects are available on my GitHub, this website in of itself is a project.",
   github: "Visit my GitHub at https://github.com/Phantom8015",
-  whoami: `Hi there! My name is Evaan Chowdhry. I'm a ${age}-year-old developer from India. I'm a passionate programmer who's been coding since I was nine years old. Feel free to reach out to me at evaanchowdhry@gmail.com!`,
+  whoami: `Hi there! My name is Evaan Chowdhry. I'm a passionate programmer who's been coding since I was nine years old. If you have any more questions about me, feel free to reach out to me at evaanchowdhry@gmail.com`,
   discord: "Add me on discord: phantom8015. (Don't forget the .)",
   achievements: async function () {
     totalDownloads = await getTotalDownloads(username);
