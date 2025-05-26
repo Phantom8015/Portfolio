@@ -36,15 +36,18 @@
   );
   background-size: 12px 12px;
   pointer-events: none;
+  user-select: none;
 }
 
 .window::-webkit-scrollbar {
   display: none;
+  user-select: none;
 }
 
 .window {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  user-select: none;
 }
 
 .title-bar {
