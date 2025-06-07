@@ -27,22 +27,6 @@ commandInput.addEventListener("blur", updateTrafficLights);
 
 updateTrafficLights();
 
-async function fetchNpmDownloads(packageName) {
-  const currentDate = new Date().toISOString().split('T')[0];
-  const response = await fetch(`https://api.npmjs.org/downloads/point/2020-01-01:${currentDate}/${packageName}`);
-  const data = await response.json();
-  return data.downloads || 0;
-}
-
-async function getTotalDownloads(username) {
-  const packageNames = await fetchUserPackages(username);
-  const downloadPromises = packageNames.map(fetchNpmDownloads);
-  const downloadsArray = await Promise.all(downloadPromises);
-  const totalDownloads = downloadsArray.reduce((sum, downloads) => sum + downloads, 0);
-  return totalDownloads.toLocaleString();
-}
-
-
 
 const username = 'phantom8015';
 
@@ -240,20 +224,59 @@ function updateTerminalTitle() {
 
 
 const commands = {
-  help: "Available commands:\n\n- help: Show this message\n\n- whoami: About me\n\n- learning: What I'm learning\n\n- skills: My skills\n\n- github: Visit my GitHub\n\n- discord: Add me on Discord\n\n- achievements: What are my achievments?\n\n- clear: Clear the terminal",
-  learning: "I am currently learning C# in Unity.",
-  skills:
-    "I code in Python, Lua, Godot, Java/TypeScript, HTML, CSS, Java, Batch & SH, and Swift. \n\nSome of my projects are available on my GitHub, this website in of itself is a project.",
-  github: "Visit my GitHub at https://github.com/Phantom8015",
-  whoami: `Hi there! My name is Evaan Chowdhry. I'm a passionate programmer who's been coding since I was nine years old. If you have any more questions about me, feel free to reach out to me at evaanchowdhry@gmail.com`,
-  discord: "Add me on discord: phantom8015. (Don't forget the .)",
+  help: function () {
+    const helpHTML = `
+<span class="command-bullet">•</span> help - show commands
+<span class="command-bullet">•</span> whoami - about me
+<span class="command-bullet">•</span> learning - current studies
+<span class="command-bullet">•</span> skills - tech stack
+<span class="command-bullet">•</span> github - code repos
+<span class="command-bullet">•</span> discord - contact
+<span class="command-bullet">•</span> achievements - accomplishments
+<span class="command-bullet">•</span> clear - clear terminal`;
+    showHTML(helpHTML);
+  },
+  learning: function () {
+    const learningHTML = `<span class="command-bullet">•</span> Learning <span class="language-csharp">C#</span> in <span class="learning-item">Unity</span>`;
+    showHTML(learningHTML);
+  },
+  skills: function () {
+    const skillsHTML = `
+<span class="command-bullet">•</span> <span class="language-python">Python</span>
+<span class="command-bullet">•</span> <span class="language-swift">Swift</span>
+<span class="command-bullet">•</span> <span class="language-csharp">C#</span>
+<span class="command-bullet">•</span> <span class="language-javascript">JavaScript</span>
+<span class="command-bullet">•</span> <span class="language-html5">HTML5</span>
+<span class="command-bullet">•</span> <span class="language-css">CSS</span>
+<span class="command-bullet">•</span> <span class="language-typescript">TypeScript</span>`;
+    showHTML(skillsHTML);
+  },
+  github: function () {
+    const githubHTML = `<span class="command-bullet">•</span> <span class="platform-github">GitHub</span>: <a href="https://github.com/Phantom8015" target="_blank" class="contact-info">https://github.com/Phantom8015</a>`;
+    showHTML(githubHTML);
+  },
+  whoami: function () {
+    const whoamiHTML = `Hi! I'm <span class="contact-info">Evaan Chowdhry</span>, here's a little about me: 
+
+<span class="command-bullet">•</span> Programming since age <span class="achievement">9</span>
+<span class="command-bullet">•</span> <span class="learning-item">Apple enthusiast</span>
+<span class="command-bullet">•</span> Contact: <span class="contact-info">evaanchowdhry@gmail.com</span>`;
+    showHTML(whoamiHTML);
+  },
+  discord: function () {
+    const discordHTML = `<span class="command-bullet">•</span> <span class="platform-discord">Discord</span>: <span class="contact-info">\`phantom8015.\`</span>`;
+    showHTML(discordHTML);
+  },
   achievements: async function () {
-    totalDownloads = await getTotalDownloads(username);
-    showOutput(`I have got 2nd place in the STRIPE Senior Python Competition and 2nd place in the Stack Hacks hackathon. I also have ${totalDownloads}+ npm downloads across all of my packages. You can check out my NPM Profile at: https://www.npmjs.com/~phantom8015`, "success");
+    const achievementsHTML = `
+<span class="command-bullet">•</span> <span class="achievement-place">2nd place</span> - <span class="achievement-event">STRIPE Senior Python Competition</span>
+<span class="command-bullet">•</span> <span class="achievement-place">2nd place</span> - <span class="achievement-event">Stack Hacks hackathon</span>`;
+    showHTML(achievementsHTML, "success");
   },
   ls: function () {
     fetchUserPackages(username).then((packages) => {
-      showOutput(packages.join("\n"), "success")
+      const packagesHTML = packages.map(pkg => `<span class="info">${pkg}</span>`).join("\n");
+      showHTML(packagesHTML, "success");
     });
   },
     
@@ -301,31 +324,40 @@ async function showCommandOutput(command) {
     outputContainer.style.width = "auto";
   }
   let response = `zsh: command not found: ${command}`;
-  let responseClass = "error";
   if (commands[command]) {
-    response = commands[command];
-    if (typeof response === "function") {
+    if (typeof commands[command] === "function") {
       const commandOutput = document.createElement("div");
-      commandOutput.classList.add("command-output", responseClass);
+      commandOutput.classList.add("command-output");
       commandOutput.textContent = `(base) Phantom8015@MacBook-Air ~ % ${command}\n`;
       outputContainer.appendChild(commandOutput);
-      await response()
+      await commands[command]();
       return;
+    } else {
+      response = commands[command];
     }
   }
 
+
   const commandOutput = document.createElement("div");
-  commandOutput.classList.add("command-output", responseClass);
+  commandOutput.classList.add("command-output");
   commandOutput.textContent = `(base) Phantom8015@MacBook-Air ~ % ${command}\n${response}`;
 
   outputContainer.appendChild(commandOutput);
-  container.scrollTop = container.scrollHeight;
+  outputContainer.scrollTop = outputContainer.scrollHeight;
 }
 
 function showOutput(text, type = "info") {
   const commandOutput = document.createElement("div");
   commandOutput.classList.add("command-output", type);
   commandOutput.textContent = text;
+  outputContainer.appendChild(commandOutput);
+  outputContainer.scrollTop = outputContainer.scrollHeight;
+}
+
+function showHTML(html, type = "info") {
+  const commandOutput = document.createElement("div");
+  commandOutput.classList.add("command-output", type);
+  commandOutput.innerHTML = html;
   outputContainer.appendChild(commandOutput);
   outputContainer.scrollTop = outputContainer.scrollHeight;
 }

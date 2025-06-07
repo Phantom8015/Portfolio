@@ -1,3 +1,7 @@
+* {
+  user-select: none;
+}
+
 .window {
   width: 70%;
   height: 77%;
@@ -196,6 +200,36 @@ footer-text {
     align-items: center;
     height: 100%;
     text-align: center;
+  }
+}
+
+.language-python { color: #3776ab; }
+.language-swift { color: #fa7343; }
+.language-csharp { color: #239120; }
+.language-javascript { color: #f7df1e; }
+.language-html5 { color: #e34f26; }
+.language-css { color: #1572b6; }
+.language-typescript { color: #3178c6; }
+
+.platform-github { color: #333; background-color: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
+.platform-discord { color: #5865f2; }
+.platform-email { color: #ea4335; }
+
+.achievement { color: #ffd700; }
+.achievement-place { color: #c0c0c0; }
+.achievement-event { color: #87ceeb; }
+
+.command-bullet { color: #90ee90; }
+.contact-info { color: #add8e6; }
+.learning-item { color: #dda0dd; }
+
+
+@media (prefers-color-scheme: dark) {
+  .platform-github { 
+    color: #f0f0f0; 
+    background-color: #333; 
+    padding: 2px 4px; 
+    border-radius: 3px; 
   }
 }
 
